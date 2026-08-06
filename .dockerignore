@@ -1,0 +1,6 @@
+#ignore while build
+node_modules
+npm-debug.log
+.DS_Store
+.vscode
+.git

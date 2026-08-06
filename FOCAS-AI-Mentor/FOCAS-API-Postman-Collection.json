@@ -1,0 +1,2100 @@
+{
+	"info": {
+		"_postman_id": "f9666451-2bee-4001-baa1-fac500686a27",
+		"name": "FOCAS API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39900122"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Mock Login (For Testing)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"dharanesh123@gmail.com\",\n  \"name\": \"Dharanesh1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/mock-login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"mock-login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Mock Login (For Testing)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"dharanesh@gmail.com\",\n  \"name\": \"Dharanesh\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/auth/mock-login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"mock-login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "350"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"15e-C/V+idFZtLhmkEiFdKnqyhDjzC0\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Jul 2025 05:08:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYmFlZDBkZS1kNDIxLTQxMDgtYTdhZi04MDNkN2JkMjdmM2MiLCJlbWFpbCI6ImRoYXJhbmVzaEBnbWFpbC5jb20iLCJpYXQiOjE3NTI4MTUzMTksImV4cCI6MTc1MjkwMTcxOX0.mLe168Kg7Xt2ZT9itDi1zdfE3N7VmhYk96LVLln-D24\",\n    \"user\": {\n        \"userId\": \"ebaed0de-d421-4108-a7af-803d7bd27f3c\",\n        \"name\": \"Dharanesh\",\n        \"email\": \"dharanesh@gmail.com\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Google Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"credential\": \"<Google OAuth Credential>\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/google",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"google"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Session",
+			"item": [
+				{
+					"name": "Create Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sessionTitle\": \"My First Session\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"sessions"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Session",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sessionTitle\": \"My First Session\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/sessions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"sessions"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "278"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"116-FpQ364EoK0n4ptQgiCJ0SuUncTI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:02:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n    \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n    \"sessionTitle\": \"My First Session\",\n    \"isCompleted\": false,\n    \"_id\": \"687e2c4c9579efe1cc0a5630\",\n    \"createdAt\": \"2025-07-21T12:02:20.597Z\",\n    \"lastActivityAt\": \"2025-07-21T12:02:20.597Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Sessions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"sessions"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Sessions",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/sessions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"sessions"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "280"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"118-JfMBGj7B3/T2Z/xgKFYDacxBQk4\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:02:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"687e2c4c9579efe1cc0a5630\",\n        \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n        \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n        \"sessionTitle\": \"My First Session\",\n        \"isCompleted\": false,\n        \"createdAt\": \"2025-07-21T12:02:20.597Z\",\n        \"lastActivityAt\": \"2025-07-21T12:02:20.597Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Session by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/sessions/:sessionId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"sessions",
+								":sessionId"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Session by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/sessions/:sessionId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"sessions",
+										":sessionId"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "278"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"116-0XTNRRCLJdPVIqvFoyWCqxGP/rE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:03:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"687e2c4c9579efe1cc0a5630\",\n    \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n    \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n    \"sessionTitle\": \"My First Session\",\n    \"isCompleted\": false,\n    \"createdAt\": \"2025-07-21T12:02:20.597Z\",\n    \"lastActivityAt\": \"2025-07-21T12:02:20.597Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Session",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/sessions/:sessionId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"sessions",
+								":sessionId"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Session",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/sessions/:sessionId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"sessions",
+										":sessionId"
+									],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "93"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5d-TDx6utoq/8HpGXQuOIPPuhIDnso\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:15:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Session and all associated questions, responses, and files deleted successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update session",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"sessionTitle\": \"Old title\",\n    \"isCompleted\": true\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/sessions/:sessionId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"sessions",
+								":sessionId"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update session",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"sessionTitle\": \"Old title\",\n    \"isCompleted\": true\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/sessions/:sessionId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"sessions",
+										":sessionId"
+									],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "270"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10e-lcf8dMLOVv+MMr/OYTIvlju3/TY\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:03:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"687e2c4c9579efe1cc0a5630\",\n    \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n    \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n    \"sessionTitle\": \"Old title\",\n    \"isCompleted\": true,\n    \"createdAt\": \"2025-07-21T12:02:20.597Z\",\n    \"lastActivityAt\": \"2025-07-21T12:03:26.546Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Question",
+			"item": [
+				{
+					"name": "Create Question",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n  \"questionType\": \"numerical\",\n  \"inputType\": \"text\",\n  \"content\": \"What is AI?\",\n  \"topic\": \"Artificial Intelligence\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/questions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"questions",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Question",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n  \"questionType\": \"numerical\",\n  \"inputType\": \"text\",\n  \"content\": \"What is AI?\",\n  \"topic\": \"Artificial Intelligence\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/questions/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"questions",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "350"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"15e-EhnefsIL4ZT+RF/VgxdwVxWFMOY\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:03:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n    \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n    \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n    \"questionType\": \"numerical\",\n    \"inputType\": \"text\",\n    \"content\": \"What is AI?\",\n    \"fileId\": null,\n    \"topic\": \"Artificial Intelligence\",\n    \"_id\": \"687e2ca79579efe1cc0a5635\",\n    \"createdAt\": \"2025-07-21T12:03:51.088Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Questions by Session",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/questions/session/:sessionId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"questions",
+								"session",
+								":sessionId"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Questions by Session",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/questions/session/:sessionId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"questions",
+										"session",
+										":sessionId"
+									],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "352"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"160-o9PhjLNu4nF2Z1AZ64Vdf/Ky3LY\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:04:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"687e2ca79579efe1cc0a5635\",\n        \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n        \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n        \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n        \"questionType\": \"numerical\",\n        \"inputType\": \"text\",\n        \"content\": \"What is AI?\",\n        \"fileId\": null,\n        \"topic\": \"Artificial Intelligence\",\n        \"createdAt\": \"2025-07-21T12:03:51.088Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Question by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/questions/:questionId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"questions",
+								":questionId"
+							],
+							"variable": [
+								{
+									"key": "questionId",
+									"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Question by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/questions/:questionId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"questions",
+										":questionId"
+									],
+									"variable": [
+										{
+											"key": "questionId",
+											"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "350"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"15e-iAPtkeIWpPig/6qfOO+3Fi/DM5Y\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:04:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"687e2ca79579efe1cc0a5635\",\n    \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n    \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n    \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n    \"questionType\": \"numerical\",\n    \"inputType\": \"text\",\n    \"content\": \"What is AI?\",\n    \"fileId\": null,\n    \"topic\": \"Artificial Intelligence\",\n    \"createdAt\": \"2025-07-21T12:03:51.088Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete question",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/questions/:questionId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"questions",
+								":questionId"
+							],
+							"variable": [
+								{
+									"key": "questionId",
+									"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete question",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/questions/:questionId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"questions",
+										":questionId"
+									],
+									"variable": [
+										{
+											"key": "questionId",
+											"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "64"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"40-dsmSLfhSdt3wWwIHCOK0zUOhYBA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:15:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Question and associated files deleted successfully\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Response",
+			"item": [
+				{
+					"name": "Create Response",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n  \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n  \"responseType\": \"text\",\n  \"content\": \"AI stands for Artificial Intelligence.\",\n  \"isStepByStep\": false\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/responses/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"responses",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n  \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n  \"responseType\": \"text\",\n  \"content\": \"AI stands for Artificial Intelligence.\",\n  \"isStepByStep\": false\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/responses/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"responses",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "378"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17a-bq44y2gcreoX/qqmbn19Zvcfcic\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:04:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseId\": \"fee76aa3-97cf-44f5-8f2d-074b24106e68\",\n    \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n    \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n    \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n    \"responseType\": \"text\",\n    \"content\": \"AI stands for Artificial Intelligence.\",\n    \"isStepByStep\": false,\n    \"_id\": \"687e2ce89579efe1cc0a5639\",\n    \"createdAt\": \"2025-07-21T12:04:56.504Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Responses by Session",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/responses/session/:sessionId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"responses",
+								"session",
+								":sessionId"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Responses by Session",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/responses/session/:sessionId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"responses",
+										"session",
+										":sessionId"
+									],
+									"variable": [
+										{
+											"key": "sessionId",
+											"value": "1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "380"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17c-+pII7Nl2aAqGVDBon2c5Wqd7Z54\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:05:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"687e2ce89579efe1cc0a5639\",\n        \"responseId\": \"fee76aa3-97cf-44f5-8f2d-074b24106e68\",\n        \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n        \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n        \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n        \"responseType\": \"text\",\n        \"content\": \"AI stands for Artificial Intelligence.\",\n        \"isStepByStep\": false,\n        \"createdAt\": \"2025-07-21T12:04:56.504Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Responses by Question",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/responses/question/:questionId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"responses",
+								"question",
+								":questionId"
+							],
+							"variable": [
+								{
+									"key": "questionId",
+									"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Responses by Question",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/responses/question/:questionId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"responses",
+										"question",
+										":questionId"
+									],
+									"variable": [
+										{
+											"key": "questionId",
+											"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "380"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17c-+pII7Nl2aAqGVDBon2c5Wqd7Z54\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:05:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"687e2ce89579efe1cc0a5639\",\n        \"responseId\": \"fee76aa3-97cf-44f5-8f2d-074b24106e68\",\n        \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n        \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n        \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n        \"responseType\": \"text\",\n        \"content\": \"AI stands for Artificial Intelligence.\",\n        \"isStepByStep\": false,\n        \"createdAt\": \"2025-07-21T12:04:56.504Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Response by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/responses/:responseId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"responses",
+								":responseId"
+							],
+							"variable": [
+								{
+									"key": "responseId",
+									"value": "fee76aa3-97cf-44f5-8f2d-074b24106e68"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Response by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/responses/:responseId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"responses",
+										":responseId"
+									],
+									"variable": [
+										{
+											"key": "responseId",
+											"value": "fee76aa3-97cf-44f5-8f2d-074b24106e68"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "378"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17a-YV3T115T40hRBtq1mwwFUMZ32RE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:05:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"687e2ce89579efe1cc0a5639\",\n    \"responseId\": \"fee76aa3-97cf-44f5-8f2d-074b24106e68\",\n    \"sessionId\": \"1c726c38-1cbf-4d7f-b0bc-a0b44e59ce67\",\n    \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n    \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n    \"responseType\": \"text\",\n    \"content\": \"AI stands for Artificial Intelligence.\",\n    \"isStepByStep\": false,\n    \"createdAt\": \"2025-07-21T12:04:56.504Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Response",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/responses/:responseId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"responses",
+								":responseId"
+							],
+							"variable": [
+								{
+									"key": "responseId",
+									"value": "fee76aa3-97cf-44f5-8f2d-074b24106e68"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/responses/:responseId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"responses",
+										":responseId"
+									],
+									"variable": [
+										{
+											"key": "responseId",
+											"value": "fee76aa3-97cf-44f5-8f2d-074b24106e68"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-tTQpNBpXJ2FhUyXhr8Ruxm+wj1Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:15:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Response deleted successfully\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "File",
+			"item": [
+				{
+					"name": "Upload file",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1f066201-63b0-4a40-82bb-5da5a2d3f4c5"
+								},
+								{
+									"key": "questionId",
+									"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/files/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"files",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Upload file",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "postman-cloud:///1f066201-63b0-4a40-82bb-5da5a2d3f4c5"
+										},
+										{
+											"key": "questionId",
+											"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/files/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"files",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "358"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"166-KFKA6eNvhlvTD0LCTcfCvMEyTEs\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:06:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fileId\": \"9e0e0d79-0669-4cac-bf1b-8c778e5a8cf9\",\n    \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n    \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n    \"fileType\": \"image\",\n    \"filePath\": \"/home/dharanesh/Documents/Senthuron Tech/FOCAS/FOCAS-AI-Mentor/uploads/1753099561650-unnamed.jpg\",\n    \"_id\": \"687e2d299579efe1cc0a563e\",\n    \"createdAt\": \"2025-07-21T12:06:01.678Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Get User Files",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/files/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"files",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get User Files",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/files/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"files",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "360"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"168-8/iFjD/Nb5nhsjs2PQnI/tkCZQU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:06:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"687e2d299579efe1cc0a563e\",\n        \"fileId\": \"9e0e0d79-0669-4cac-bf1b-8c778e5a8cf9\",\n        \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n        \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n        \"fileType\": \"image\",\n        \"filePath\": \"/home/dharanesh/Documents/Senthuron Tech/FOCAS/FOCAS-AI-Mentor/uploads/1753099561650-unnamed.jpg\",\n        \"createdAt\": \"2025-07-21T12:06:01.678Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Files by Question",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/files/question/:questionId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"files",
+								"question",
+								":questionId"
+							],
+							"variable": [
+								{
+									"key": "questionId",
+									"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Files by Question",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/files/question/:questionId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"files",
+										"question",
+										":questionId"
+									],
+									"variable": [
+										{
+											"key": "questionId",
+											"value": "31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "360"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"168-8/iFjD/Nb5nhsjs2PQnI/tkCZQU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:07:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"687e2d299579efe1cc0a563e\",\n        \"fileId\": \"9e0e0d79-0669-4cac-bf1b-8c778e5a8cf9\",\n        \"userId\": \"67222b8e-11f6-4c0f-a2eb-01175ef8e238\",\n        \"questionId\": \"31bf9c90-fd08-43ac-91c7-27a0fdf0eaf4\",\n        \"fileType\": \"image\",\n        \"filePath\": \"/home/dharanesh/Documents/Senthuron Tech/FOCAS/FOCAS-AI-Mentor/uploads/1753099561650-unnamed.jpg\",\n        \"createdAt\": \"2025-07-21T12:06:01.678Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Delete File",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/files/:fileId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"files",
+								":fileId"
+							],
+							"variable": [
+								{
+									"key": "fileId",
+									"value": "9e0e0d79-0669-4cac-bf1b-8c778e5a8cf9"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete File",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzIyMmI4ZS0xMWY2LTRjMGYtYTJlYi0wMTE3NWVmOGUyMzgiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFp..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/files/:fileId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"files",
+										":fileId"
+									],
+									"variable": [
+										{
+											"key": "fileId",
+											"value": "9e0e0d79-0669-4cac-bf1b-8c778e5a8cf9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "39"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"27-Is84z53y5t83vyJog4/AOPILhLU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Jul 2025 12:15:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"File deleted successfully\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Send Chat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"prompt\": \"Hello, AI!\",\n  \"response\": \"Hi there!\",\n  \"imageUrl\": \"http://example.com/image.png\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/chat/send",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"chat",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/chat/history",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"chat",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NjdkZDk5ZS0zODk1LTQxODUtOGUzMC0yNjMyNzNlNzk2MmMiLCJlbWFpbCI6ImRoYXJhbmVzaDEyM0BnbWFpbC5jb20iLCJpYXQiOjE3NTMwOTEwMzUsImV4cCI6MTc1MzE3NzQzNX0.MtI_fDY5pZyk6ygQJjY8_8BLz_htEb8fhNUhmJfcJSM",
+			"type": "string"
+		}
+	]
+}

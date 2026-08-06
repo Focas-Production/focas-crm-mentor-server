@@ -1,0 +1,32 @@
+{
+  "name": "focus-mobile-app-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "migrate:phone-index": "node scripts/migrations/2026-02-10-fix-phone-index.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1693.0",
+    "axios": "^1.12.2",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "google-auth-library": "^10.1.0",
+    "ioredis": "^5.9.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.3",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.1",
+    "multer-s3": "^2.10.0",
+    "openai": "^5.9.0",
+    "razorpay": "^2.9.6",
+    "uuid": "^11.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
