@@ -90,7 +90,7 @@ app.use('/api/mcq', mcqRoutes);
 app.use("/api/data",webhookRoutes)
 // Files are now served from S3, no need for static serving
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 7001;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Mentor Server running on port ${PORT}`);
   console.log("File storage: AWS S3");

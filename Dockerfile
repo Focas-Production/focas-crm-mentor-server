@@ -9,6 +9,6 @@ COPY .env ./
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 7001
 
 CMD ["node", "server.js"]
