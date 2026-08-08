@@ -66,6 +66,47 @@ const sendOtpMessage = async (phoneNumber, otp) => {
 };
 
 /**
+ * Show "typing…" (and blue ticks) on the customer's phone while the bot
+ * prepares its reply, directly via the Meta Cloud API.
+ *
+ * Meta bundles typing with mark-as-read: this acknowledges the given
+ * inbound message id (wamid), turning its ticks blue and lighting the
+ * typing indicator until the next outbound message lands (max ~25s).
+ *
+ * Best-effort — returns null on any failure. Cosmetic UX must never
+ * block or fail the actual bot reply.
+ */
+const sendTypingIndicator = async (inboundMessageId) => {
+  if (!inboundMessageId) return null;
+  const url = `${GRAPH_API_BASE}/${process.env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
+  try {
+    const response = await axios.post(
+      url,
+      {
+        messaging_product: "whatsapp",
+        status: "read",
+        message_id: inboundMessageId,
+        typing_indicator: { type: "text" },
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
+        },
+        timeout: 10000,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "WhatsApp typing indicator error:",
+      JSON.stringify(error.response?.data || error.message)
+    );
+    return null;
+  }
+};
+
+/**
  * Send a message through the wacrm public API (shows up in the shared
  * inbox at WACRM_BASE_URL). Use for non-OTP messages so agents can see
  * the conversation history.
@@ -162,6 +203,7 @@ const getWacrmContactPhone = async (contactId) => {
 
 module.exports = {
   sendOtpMessage,
+  sendTypingIndicator,
   sendWacrmMessage,
   sendWacrmText,
   sendWacrmInteractiveList,

@@ -1,5 +1,8 @@
 const crypto = require("crypto");
-const { getWacrmContactPhone } = require("../services/whatsappService");
+const {
+  getWacrmContactPhone,
+  sendTypingIndicator,
+} = require("../services/whatsappService");
 const { processInbound } = require("./watiWebhookController");
 
 /**
@@ -75,6 +78,12 @@ exports.wacrmWebhookHandler = async (req, res) => {
     const { contact_id, whatsapp_message_id, content_type, text } =
       event.data || {};
     if (!contact_id || !text) return;
+
+    // The bot WILL handle this message — mark it read + show "typing…"
+    // on the customer's phone before the MCQ engine computes its reply.
+    // Awaited so the ack reaches Meta before the reply dismisses it;
+    // best-effort inside (never throws).
+    await sendTypingIndicator(whatsapp_message_id);
 
     let phone = phoneCache.get(contact_id);
     if (!phone) {
