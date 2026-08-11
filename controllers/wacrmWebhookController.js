@@ -75,8 +75,18 @@ exports.wacrmWebhookHandler = async (req, res) => {
     const event = req.body;
     if (event?.event !== "message.received") return;
 
-    const { contact_id, whatsapp_message_id, content_type, text } =
-      event.data || {};
+    const {
+      contact_id,
+      whatsapp_message_id,
+      content_type,
+      text,
+      // WATI-style enriched fields (wacrm ≥ 0.9): phone/wa_id, sender
+      // name, and the structured interactive tap with the row ID.
+      phone: eventPhone,
+      wa_id,
+      sender_name,
+      interactive_reply,
+    } = event.data || {};
     if (!contact_id || !text) return;
 
     // The bot WILL handle this message — mark it read + show "typing…"
@@ -85,25 +95,35 @@ exports.wacrmWebhookHandler = async (req, res) => {
     // best-effort inside (never throws).
     await sendTypingIndicator(whatsapp_message_id);
 
-    let phone = phoneCache.get(contact_id);
+    // Phone rides on the event now; the API lookup remains as a
+    // fallback for events from an older wacrm build.
+    let phone = eventPhone || wa_id || phoneCache.get(contact_id);
     if (!phone) {
       phone = await getWacrmContactPhone(contact_id);
       if (!phone) {
         console.error("[WACRM-WEBHOOK] Could not resolve phone for contact:", contact_id);
         return;
       }
-      cachePhone(contact_id, phone);
     }
+    cachePhone(contact_id, phone);
 
-    // Normalize into the shape the bot expects. wacrm sends the tapped
-    // row's title as `text` for interactive replies; the row id is not
-    // included in the event, so the bot matches by title.
+    // Normalize into the shape the bot expects (same as WATI's).
     const body = {
       id: whatsapp_message_id || event.id,
       waId: String(phone).replace(/\D/g, ""),
+      senderName: sender_name || undefined,
       text,
     };
-    if (content_type === "interactive") {
+    if (interactive_reply) {
+      // Structured tap: real row id + title (+ description) — the bot
+      // can match by id instead of title.
+      body.listReply = {
+        id: interactive_reply.id,
+        title: interactive_reply.title,
+        description: interactive_reply.description || undefined,
+      };
+    } else if (content_type === "interactive") {
+      // Older wacrm: only the tapped title travels (as `text`).
       body.listReply = { title: text };
     }
 
