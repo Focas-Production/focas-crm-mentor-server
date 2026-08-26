@@ -3,7 +3,10 @@ const {
   getWacrmContactPhone,
   sendTypingIndicator,
 } = require("../services/whatsappService");
-const { processInbound } = require("./watiWebhookController");
+const {
+  processInbound,
+  isOtherBotsQuizTrigger,
+} = require("./watiWebhookController");
 
 /**
  * Receives outbound webhook events from our wacrm instance
@@ -88,6 +91,19 @@ exports.wacrmWebhookHandler = async (req, res) => {
       interactive_reply,
     } = event.data || {};
     if (!contact_id || !text) return;
+
+    // Bail out BEFORE the read receipt.
+    //
+    // processInbound() refuses this word too, but returning there is already
+    // too late to be silent: sendTypingIndicator() below marks the message read
+    // and puts a "typing…" bubble on the learner's phone. The learner would see
+    // this bot acknowledge their message and then say nothing — which reads as
+    // a broken bot rather than a quiet one. `quiz` belongs to the drip engine;
+    // leave no trace of having seen it.
+    if (isOtherBotsQuizTrigger({ text, listReply: interactive_reply })) {
+      console.log("[WACRM-WEBHOOK] Ignored — quiz trigger belongs to the drip engine");
+      return;
+    }
 
     // The bot WILL handle this message — mark it read + show "typing…"
     // on the customer's phone before the MCQ engine computes its reply.

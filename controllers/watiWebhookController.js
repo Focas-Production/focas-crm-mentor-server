@@ -59,6 +59,60 @@ const DEDUPE_FALLBACK_KEY = (from, text, t) => `dedupe:fallback:${from}:${text}:
 const PROMPT_LOCK_KEY = (from) => `promptlock:${from}`; // prevents re-sending same step prompt
 
 /* ========================================================= */
+/* THE OTHER BOT'S TRIGGER WORD                               */
+/* ========================================================= */
+
+/**
+ * The drip engine (Focas/drip_engine) runs its own quiz on THIS SAME wacrm
+ * account, started by its own trigger word — `quiz` by default, configurable
+ * there as the `quizTrigger` keeper setting.
+ *
+ * Both bots therefore receive every inbound message on this number, and before
+ * this guard both answered that word: the drip engine opened its subject
+ * chooser while this server replied "Type *MCQ* to begin a practice session"
+ * (see the `if (!session)` branch in processInbound). Two bots talking over
+ * each other in one chat, for one word the learner typed once.
+ *
+ * The word is not ours, so we do not act on it — we stay silent and let the
+ * drip engine own it. This server's own trigger, `mcq`, is untouched.
+ *
+ * Keep QUIZ_TRIGGER_WORD in step with the drip engine's `quizTrigger` setting.
+ * If they drift, this server starts answering the other bot's word again.
+ */
+const QUIZ_TRIGGER_WORD = (process.env.QUIZ_TRIGGER_WORD || "quiz").trim();
+
+/**
+ * Anchored and escaped, deliberately matching the drip engine's own rule
+ * (src/services/mcqSession.js triggerPattern): the WHOLE message must be the
+ * word. "how do I start the quiz" is a learner asking this mentor a question
+ * and must still be handled normally — only the bare trigger is surrendered.
+ */
+const QUIZ_TRIGGER_RE = new RegExp(
+  `^\\s*${QUIZ_TRIGGER_WORD.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*$`,
+  "i"
+);
+
+/**
+ * True when this inbound is the drip engine's trigger and this server should
+ * say nothing at all.
+ *
+ * Checks the tapped label as well as typed text: a WhatsApp quick reply arrives
+ * as a message whose text is the button's label, so the tap and the typed word
+ * look alike on the wire — which is exactly why the drip engine accepts both.
+ */
+function isOtherBotsQuizTrigger(body) {
+  if (!QUIZ_TRIGGER_WORD) return false;
+  const candidates = [
+    body?.text,
+    body?.message,
+    body?.listReply?.title,
+    body?.listReply?.id,
+    body?.buttonReply?.title,
+  ];
+  return candidates.some((c) => c && QUIZ_TRIGGER_RE.test(String(c)));
+}
+
+/* ========================================================= */
 /* ATTEMPT GIVEN OPTIONS                                      */
 /* ========================================================= */
 
@@ -662,6 +716,15 @@ const processInbound = async (body) => {
     // Filter out non-user messages
     if (!isUserInboundMessage(body)) {
       console.log("[WEBHOOK] Ignored non-user event");
+      return;
+    }
+
+    // Not our word. The drip engine owns `quiz` on this shared number and is
+    // already answering it; anything this server said here would arrive as a
+    // second bot talking over the first. Checked before dedupe and before any
+    // state is loaded, so there is no path from here to a reply.
+    if (isOtherBotsQuizTrigger(body)) {
+      console.log("[WEBHOOK] Ignored — quiz trigger belongs to the drip engine");
       return;
     }
 
@@ -1482,6 +1545,8 @@ if (mcqRun) {
 };
 
 exports.processInbound = processInbound;
+exports.isOtherBotsQuizTrigger = isOtherBotsQuizTrigger;
+exports.QUIZ_TRIGGER_WORD = QUIZ_TRIGGER_WORD;
 
 /* ========================================================= */
 /* HELPER: Generate and Start Quiz                            */
