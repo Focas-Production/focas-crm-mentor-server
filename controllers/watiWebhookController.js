@@ -113,6 +113,136 @@ function isOtherBotsQuizTrigger(body) {
 }
 
 /* ========================================================= */
+/* WHO OWNS THIS CONVERSATION                                 */
+/* ========================================================= */
+
+/**
+ * The trigger word alone is not enough.
+ *
+ * Surrendering the bare word `quiz` stopped this server answering the moment a
+ * quiz STARTS, but not for the rest of it. Every question the drip engine asks
+ * comes back as a tapped row, and this server answered every one of them —
+ * three interruptions per quiz. From production on 26 Aug, one tap:
+ *
+ *   12:31:18  IN  <- "B"   interactive_reply.id = drip:6a8e8f35...:B
+ *   12:31:19  OUT -> "❌ Incorrect. Correct Answer: A ..."
+ *   12:31:20  OUT -> "❌ Not quite. The answer is D ..."
+ *   12:31:21  OUT -> "Quiz Completed! 📊 Your Score: 0/1"
+ *
+ * Two verdicts a second apart, disagreeing because they were grading two
+ * different questions, then a score for a quiz the learner was not taking.
+ *
+ * So ownership is tracked per number rather than per message. `quiz` hands the
+ * conversation to the drip engine, `mcq` hands it back, and while they hold it
+ * this server says nothing at all — taps, free text, all of it.
+ */
+
+/**
+ * Every tappable row the drip engine mints carries an id in its own namespace
+ * (`drip:subj:IDT`, `drip:6a8e8f35...:B`). Ids are minted by whoever sent the
+ * row, so this prefix can only ever be theirs.
+ *
+ * Unlike QUIZ_TRIGGER_WORD this needs no configuration and cannot drift — it is
+ * the half of the protocol that is safe to hard-code.
+ */
+const DRIP_ID_PREFIX = "drip:";
+
+/**
+ * The handback. This server's own trigger, matched the same way processInbound
+ * matches it further down, so "the word that starts an MCQ session" and "the
+ * word that takes the conversation back" cannot disagree.
+ */
+const HANDBACK_RE = /^\s*\/?mcq\s*$/i;
+
+/**
+ * Released after this long without a word from the number.
+ *
+ * Without a timeout, releasing ONLY on `mcq` would leave anyone who finishes a
+ * drip quiz talking to nobody: the drip engine has closed its session and this
+ * server still believes it must stay quiet. That silence is worse than the
+ * double reply it was meant to fix. A drip quiz is three questions and takes
+ * about a minute, so thirty is generous by a wide margin.
+ */
+const DRIP_OWNERSHIP_TIMEOUT_MS = 30 * 60 * 1000;
+
+/** waId (digits only) -> epoch ms of the last message that kept it theirs. */
+const dripOwned = new Map();
+
+/**
+ * In-memory on purpose. Losing it on restart costs at most one duplicate reply
+ * before the next tap or trigger puts the number back — which is a far smaller
+ * price than a shared store between two servers that are meant to stay
+ * independent.
+ */
+function pruneDripOwned(now) {
+  if (dripOwned.size < 500) return;
+  for (const [key, seen] of dripOwned) {
+    if (now - seen > DRIP_OWNERSHIP_TIMEOUT_MS) dripOwned.delete(key);
+  }
+}
+
+function dripOwnerKey(body) {
+  const explicit = body?.waId || body?.wa_id || body?.phone;
+  if (explicit) return String(explicit).replace(/\D/g, "") || null;
+  // The wacrm controller hands us a small object it built by hand; a full WATI
+  // body has to go through the normaliser instead.
+  try {
+    const from = normalizeIncomingFrom(body);
+    return from ? String(from).replace(/\D/g, "") || null : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * True when the drip engine owns this conversation turn and this server should
+ * say nothing at all.
+ *
+ * Order matters: handback is checked before everything, so `mcq` always gets
+ * the learner out no matter what state the map is in.
+ */
+function belongsToDripEngine(body, now = Date.now()) {
+  const key = dripOwnerKey(body);
+  const labels = [body?.text, body?.message, body?.listReply?.title, body?.buttonReply?.title];
+
+  if (labels.some((c) => c && HANDBACK_RE.test(String(c)))) {
+    if (key) dripOwned.delete(key);
+    return false;
+  }
+
+  // A row in their namespace is theirs whether or not the map agrees — this is
+  // what survives a restart, and what makes the map an optimisation rather than
+  // the thing correctness rests on.
+  if (String(body?.listReply?.id || "").startsWith(DRIP_ID_PREFIX)) {
+    if (key) {
+      pruneDripOwned(now);
+      dripOwned.set(key, now);
+    }
+    return true;
+  }
+
+  if (isOtherBotsQuizTrigger(body)) {
+    if (key) {
+      pruneDripOwned(now);
+      dripOwned.set(key, now);
+    }
+    return true;
+  }
+
+  // Everything else from a number mid-quiz: free text between taps, "ok",
+  // "what is this?" — the case the trigger-word rule could never cover.
+  if (!key) return false;
+  const seen = dripOwned.get(key);
+  if (seen === undefined) return false;
+  if (now - seen > DRIP_OWNERSHIP_TIMEOUT_MS) {
+    dripOwned.delete(key);
+    return false;
+  }
+  dripOwned.set(key, now);
+  return true;
+}
+
+/* ========================================================= */
 /* ATTEMPT GIVEN OPTIONS                                      */
 /* ========================================================= */
 
@@ -723,8 +853,8 @@ const processInbound = async (body) => {
     // already answering it; anything this server said here would arrive as a
     // second bot talking over the first. Checked before dedupe and before any
     // state is loaded, so there is no path from here to a reply.
-    if (isOtherBotsQuizTrigger(body)) {
-      console.log("[WEBHOOK] Ignored — quiz trigger belongs to the drip engine");
+    if (belongsToDripEngine(body)) {
+      console.log("[WEBHOOK] Ignored — this conversation belongs to the drip engine");
       return;
     }
 
@@ -1546,6 +1676,7 @@ if (mcqRun) {
 
 exports.processInbound = processInbound;
 exports.isOtherBotsQuizTrigger = isOtherBotsQuizTrigger;
+exports.belongsToDripEngine = belongsToDripEngine;
 exports.QUIZ_TRIGGER_WORD = QUIZ_TRIGGER_WORD;
 
 /* ========================================================= */

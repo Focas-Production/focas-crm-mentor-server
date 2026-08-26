@@ -5,7 +5,7 @@ const {
 } = require("../services/whatsappService");
 const {
   processInbound,
-  isOtherBotsQuizTrigger,
+  belongsToDripEngine,
 } = require("./watiWebhookController");
 
 /**
@@ -94,14 +94,22 @@ exports.wacrmWebhookHandler = async (req, res) => {
 
     // Bail out BEFORE the read receipt.
     //
-    // processInbound() refuses this word too, but returning there is already
-    // too late to be silent: sendTypingIndicator() below marks the message read
-    // and puts a "typing…" bubble on the learner's phone. The learner would see
+    // processInbound() refuses these too, but returning there is already too
+    // late to be silent: sendTypingIndicator() below marks the message read and
+    // puts a "typing…" bubble on the learner's phone. The learner would see
     // this bot acknowledge their message and then say nothing — which reads as
-    // a broken bot rather than a quiet one. `quiz` belongs to the drip engine;
-    // leave no trace of having seen it.
-    if (isOtherBotsQuizTrigger({ text, listReply: interactive_reply })) {
-      console.log("[WACRM-WEBHOOK] Ignored — quiz trigger belongs to the drip engine");
+    // a broken bot rather than a quiet one. While the drip engine owns the
+    // conversation, leave no trace of having seen any of it.
+    if (
+      belongsToDripEngine({
+        text,
+        listReply: interactive_reply,
+        // Needed for the ownership map: the trigger word claims the NUMBER, and
+        // every message from it afterwards is theirs until it is handed back.
+        waId: wa_id || eventPhone,
+      })
+    ) {
+      console.log("[WACRM-WEBHOOK] Ignored — this conversation belongs to the drip engine");
       return;
     }
 
