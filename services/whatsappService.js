@@ -67,31 +67,34 @@ const sendOtpMessage = async (phoneNumber, otp) => {
 
 /**
  * Show "typing…" (and blue ticks) on the customer's phone while the bot
- * prepares its reply, directly via the Meta Cloud API.
+ * prepares its reply, via the wacrm public API (POST /api/v1/typing).
+ *
+ * Goes through wacrm — NOT directly to Meta — on purpose: wacrm holds
+ * the always-fresh WhatsApp token, whereas this app's own
+ * WHATSAPP_ACCESS_TOKEN copy expired once already and silently broke
+ * typing with a 190 Authentication Error. Same credentials as
+ * sendWacrmMessage (WACRM_BASE_URL + WACRM_API_KEY, messages:send
+ * scope).
  *
  * Meta bundles typing with mark-as-read: this acknowledges the given
  * inbound message id (wamid), turning its ticks blue and lighting the
  * typing indicator until the next outbound message lands (max ~25s).
  *
- * Best-effort — returns null on any failure. Cosmetic UX must never
- * block or fail the actual bot reply.
+ * Best-effort — returns null on any failure (wacrm itself soft-fails
+ * with { shown: false, reason } when there's nothing to acknowledge).
+ * Cosmetic UX must never block or fail the actual bot reply.
  */
 const sendTypingIndicator = async (inboundMessageId) => {
   if (!inboundMessageId) return null;
-  const url = `${GRAPH_API_BASE}/${process.env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
+  const url = `${process.env.WACRM_BASE_URL}/api/v1/typing`;
   try {
     const response = await axios.post(
       url,
-      {
-        messaging_product: "whatsapp",
-        status: "read",
-        message_id: inboundMessageId,
-        typing_indicator: { type: "text" },
-      },
+      { whatsapp_message_id: inboundMessageId },
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${process.env.WACRM_API_KEY}`,
         },
         timeout: 10000,
       }
