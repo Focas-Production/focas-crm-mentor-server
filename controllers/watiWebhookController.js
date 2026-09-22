@@ -243,6 +243,69 @@ function belongsToDripEngine(body, now = Date.now()) {
 }
 
 /* ========================================================= */
+/* THE CA GURU CAMPAIGN                                       */
+/* ========================================================= */
+
+/**
+ * The CA Guru bot (Focas/ca_guru_bot) answers leads from the "Your Last Attempt"
+ * campaign on this same wacrm number. A lead starts it by sending the ad's
+ * prefilled text, and from then on it asks them numbered questions ("Reply with
+ * the number"). Before this guard this server answered every one of those
+ * messages too: a lead's "2" got our "Type *MCQ* to begin" menu while the CA
+ * Guru bot moved on to its next question.
+ *
+ * So the phrase hands the NUMBER to the CA Guru bot for CAGURU_SILENCE_HOURS
+ * (two days by default) and this server says nothing to it at all in that time
+ * — typed `mcq` included. After that it answers them as usual.
+ *
+ * Kept in Redis, not in memory like the drip map: two days is long enough that a
+ * restart inside it is likely, and the first message after one would be a
+ * double reply in exactly the chat this is meant to protect.
+ *
+ * Keep CAGURU_TRIGGER_PHRASE in step with BOT_TRIGGER_PHRASE on the CA Guru bot.
+ * Blank switches the guard off.
+ */
+const CAGURU_TRIGGER_PHRASE = (process.env.CAGURU_TRIGGER_PHRASE ?? "YOUR LAST ATTEMPT").trim();
+const CAGURU_SILENCE_SEC = Math.round(Number(process.env.CAGURU_SILENCE_HOURS || 48) * 3600);
+const CAGURU_KEY = (waId) => `caguru:owned:${waId}`;
+
+/** The CA Guru bot's own normalisation: case, punctuation and spacing never break a match. */
+const normalizePhrase = (v) =>
+  String(v ?? "")
+    .toLowerCase()
+    .replace(/['‘’]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+/** The phrase anywhere in the message, as whole words — the same rule the CA Guru bot uses. */
+function hasCaGuruTrigger(text) {
+  const phrase = normalizePhrase(CAGURU_TRIGGER_PHRASE);
+  return Boolean(phrase) && ` ${normalizePhrase(text)} `.includes(` ${phrase} `);
+}
+
+/**
+ * True when the CA Guru bot owns this conversation and this server should say
+ * nothing at all. Sending the phrase again restarts the two days.
+ *
+ * A Redis failure answers "no": this server's own learners going unanswered is
+ * worse than one double reply to a lead.
+ */
+async function belongsToCaGuru(body) {
+  const key = dripOwnerKey(body);
+  if (!key || !CAGURU_TRIGGER_PHRASE) return false;
+  try {
+    if ([body?.text, body?.message].some((t) => t && hasCaGuruTrigger(t))) {
+      await setJson(CAGURU_KEY(key), { since: new Date().toISOString() }, CAGURU_SILENCE_SEC);
+      return true;
+    }
+    return Boolean(await getJson(CAGURU_KEY(key)));
+  } catch (err) {
+    console.error("[CAGURU] Ownership check failed:", err.message);
+    return false;
+  }
+}
+
+/* ========================================================= */
 /* ATTEMPT GIVEN OPTIONS                                      */
 /* ========================================================= */
 
@@ -855,6 +918,13 @@ const processInbound = async (body) => {
     // state is loaded, so there is no path from here to a reply.
     if (belongsToDripEngine(body)) {
       console.log("[WEBHOOK] Ignored — this conversation belongs to the drip engine");
+      return;
+    }
+
+    // A "Your Last Attempt" lead: the CA Guru bot is asking them numbered
+    // questions for two days, and a "2" meant for it must not start our menu.
+    if (await belongsToCaGuru(body)) {
+      console.log("[WEBHOOK] Ignored — this conversation belongs to the CA Guru bot");
       return;
     }
 
@@ -1677,6 +1747,7 @@ if (mcqRun) {
 exports.processInbound = processInbound;
 exports.isOtherBotsQuizTrigger = isOtherBotsQuizTrigger;
 exports.belongsToDripEngine = belongsToDripEngine;
+exports.belongsToCaGuru = belongsToCaGuru;
 exports.QUIZ_TRIGGER_WORD = QUIZ_TRIGGER_WORD;
 
 /* ========================================================= */

@@ -6,6 +6,7 @@ const {
 const {
   processInbound,
   belongsToDripEngine,
+  belongsToCaGuru,
 } = require("./watiWebhookController");
 
 /**
@@ -110,6 +111,13 @@ exports.wacrmWebhookHandler = async (req, res) => {
       })
     ) {
       console.log("[WACRM-WEBHOOK] Ignored — this conversation belongs to the drip engine");
+      return;
+    }
+
+    // Same reason for a "Your Last Attempt" lead the CA Guru bot is talking to:
+    // no read receipt, no "typing…", no reply for two days.
+    if (await belongsToCaGuru({ text, waId: wa_id || eventPhone || phoneCache.get(contact_id) })) {
+      console.log("[WACRM-WEBHOOK] Ignored — this conversation belongs to the CA Guru bot");
       return;
     }
 
